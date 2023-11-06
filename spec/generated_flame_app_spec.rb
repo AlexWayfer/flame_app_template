@@ -4,21 +4,22 @@ require 'fileutils'
 require 'net/http'
 
 RSpec.describe 'Generated Flame app from template' do
-	let(:app_name) { 'foo_bar' }
+	## I'm aware about "bad `before :all` practice",
+	## but here it's safe and speeds up tests in 5 times minimum.
+	# rubocop:disable RSpec/BeforeAfterAll
+	# rubocop:disable RSpec/InstanceVariable
+	before :all do
+		@app_name = 'foo_bar'
 
-	let(:port) do
 		## https://stackoverflow.com/a/5985984/2630849
 		socket = Socket.new(:INET, :STREAM, 0)
 		socket.bind Addrinfo.tcp('127.0.0.1', 0)
-		result = socket.local_address.ip_port
+		@port = socket.local_address.ip_port
 		socket.close
-		result
-	end
 
-	before do
-		`flame_app_generator #{app_name} #{__dir__}/../template`
+		`flame_app_generator #{@app_name} #{__dir__}/../template`
 
-		Dir.chdir app_name
+		Dir.chdir @app_name
 
 		Bundler.with_unbundled_env do
 			## HACK: https://github.com/dazuma/toys/issues/57
@@ -30,16 +31,18 @@ RSpec.describe 'Generated Flame app from template' do
 			server_config_file_path = 'config/server.yaml'
 			File.write(
 				server_config_file_path,
-				File.read(server_config_file_path).sub('port: 3000', "port: #{port}")
+				File.read(server_config_file_path).sub('port: 3000', "port: #{@port}")
 			)
 		end
 	end
 
-	after do
+	after :all do
 		Dir.chdir '..'
 
-		FileUtils.rm_r app_name
+		FileUtils.rm_r @app_name
 	end
+	# rubocop:enable RSpec/BeforeAfterAll
+	# rubocop:enable RSpec/InstanceVariable
 
 	describe 'files' do
 		let(:file_path) { self.class.description }
@@ -200,7 +203,10 @@ RSpec.describe 'Generated Flame app from template' do
 				begin
 					number_of_attempts += 1
 					## https://github.com/gruntjs/grunt-contrib-connect/issues/25#issuecomment-16293494
-					response = Net::HTTP.get URI("http://127.0.0.1:#{port}/")
+					## We need it here
+					# rubocop:disable RSpec/InstanceVariable
+					response = Net::HTTP.get URI("http://127.0.0.1:#{@port}/")
+					# rubocop:enable RSpec/InstanceVariable
 				rescue Errno::ECONNREFUSED => e
 					sleep 1
 					retry if number_of_attempts < 30
