@@ -48,6 +48,7 @@ AllCops:
     <% `git status --ignored --porcelain`.lines.grep(/^!! /).each do |path| %>
       - <%= path.sub(/^!! /, '') %>
     <% end %>
+      - template/**/*
 
 RSpec/NestedGroups:
   Enabled: false
