@@ -2,9 +2,7 @@
 
 source 'https://rubygems.org'
 
-## TODO: Release and update
-# gem 'flame_app_generator', '~> 0.1.0'
-gem 'flame_app_generator', path: '~/Projects/ruby/flame_app_generator'
+gem 'flame_app_generator', '~> 0.1.0'
 
 gem 'pry-byebug', '~> 3.9'
 
