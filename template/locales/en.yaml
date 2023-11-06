@@ -1,0 +1,13 @@
+button:
+  back: Back
+  home: Home
+
+error:
+  page:
+    itself:
+      not_found: Page not found.
+
+  unexpected_error:
+    title: Unexpected error occurred.
+    subtitle: Try to go back and refresh the page.
+    text: Information for fixing has been already sent to our developers.

@@ -1,0 +1,23 @@
+[Unit]
+Description=<%= module_name %> Server
+After=network.target
+
+# Uncomment for socket activation (see below)
+# Requires=puma.socket
+
+[Service]
+# Foreground process (do not use --daemon in ExecStart or config.rb)
+Type=simple
+
+# The path to the your application code root directory.
+WorkingDirectory=%h/<%= app_name %>
+
+# Helpful for debugging socket activation, etc.
+# Environment=PUMA_DEBUG=1
+
+ExecStart=%h/<%= app_name %>/exe/systemd.sh
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

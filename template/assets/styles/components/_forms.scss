@@ -1,0 +1,142 @@
+$form-vertical-label-margin: 0.8em;
+$form-vertical-input-margin: 0.4em;
+
+form {
+	text-align: center;
+
+	fieldset {
+		text-align: initial;
+		margin: 1em 0;
+		padding: 0.4em 1em 0.9em;
+		border-radius: $common-border-radius;
+		border-style: solid;
+		border-width: $input-border-width;
+		border-color: $input-border-color;
+
+		> fieldset {
+			&:first-of-type {
+				margin-top: 0.4em;
+			}
+
+			&:last-of-type {
+				margin-bottom: 0.4em;
+			}
+		}
+
+		> legend {
+			font-weight: bold;
+		}
+	}
+
+	> fieldset:first-of-type {
+		margin-top: 0;
+	}
+
+	label {
+		> p {
+			font-weight: normal;
+		}
+	}
+
+	input.with-clear-button + button {
+		margin-bottom: 0;
+	}
+
+	p.error {
+		height: 0;
+		overflow: hidden;
+		margin: 0;
+		padding-left: 0.4em;
+		color: color.adjust($error-color, $lightness: 15%);
+	}
+
+	.invalid {
+		input {
+			border: $input-border-width solid color.adjust($error-color, $lightness: 15%);
+			box-shadow: 0 0 3px color.adjust($error-color, $lightness: 15%);
+		}
+
+		& ~ .error {
+			height: inherit;
+			margin-top: 0.4em;
+		}
+	}
+
+	&.inline {
+		&,
+		label {
+			display: inline-block;
+		}
+	}
+
+	&.vertical {
+		text-align: center;
+
+		label,
+		ul,
+		table,
+		p,
+		article,
+		fieldset {
+			text-align: left;
+		}
+
+		label,
+		table {
+			margin-bottom: $form-vertical-label-margin;
+		}
+
+		label {
+			display: block;
+
+			// Because of inputs outline
+			// padding: 5px;
+
+			#{all-horizontal-inputs()},
+			textarea,
+			select,
+			.cccombo {
+				display: block;
+				width: 100%;
+				margin-top: $form-vertical-input-margin;
+			}
+
+			> label {
+				margin-bottom: $form-vertical-input-margin;
+
+				&:first-of-type {
+					margin-top: $form-vertical-input-margin;
+				}
+			}
+		}
+	}
+
+	&.table {
+		label {
+			display: table-row;
+
+			> span {
+				display: table-cell;
+				padding: 0.4em 0;
+				vertical-align: middle;
+
+				&:first-of-type {
+					text-align: right;
+					padding-right: 0.4em;
+				}
+			}
+
+			&:first-of-type {
+				> span {
+					padding-top: 0.2em;
+				}
+			}
+
+			&:last-of-type {
+				> span {
+					padding-bottom: 0.2em;
+				}
+			}
+		}
+	}
+}

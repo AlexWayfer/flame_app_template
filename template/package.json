@@ -1,0 +1,35 @@
+{
+	"private": true,
+	"dependencies": {
+		"@sentry/browser": "*",
+		"autoprefixer": "*",
+		"esbuild": "*",
+		"postcss-cli": "*",
+		"postcss-flexbugs-fixes": "*",
+		"promise-polyfill": "*",
+		"sass": "*",
+		"whatwg-fetch": "*"
+	},
+	"devDependencies": {
+		"eslint": "*",
+		"postcss-scss": "*",
+		"remark-cli": "*",
+		"remark-preset-lint-recommended": "*",
+		"stylelint": "*",
+		"stylelint-config-standard": "*",
+		"stylelint-config-standard-scss": "*",
+		"stylelint-no-unsupported-browser-features": "*"
+	},
+	"scripts": {
+		"build:styles": "sass assets/styles/main.scss public/styles/main.css -s compressed && postcss public/styles/main.css -o public/styles/main.css",
+		"build:scripts": "esbuild assets/scripts/main.js assets/scripts/sentry.js --outdir=public/scripts/compiled/ --bundle --sourcemap",
+		"build": "pnpm run build:styles && pnpm run build:scripts",
+		"clean:styles": "rm -f public/styles/main.css public/styles/main.css.map",
+		"clean:scripts": "rm -rvf public/scripts/compiled",
+		"clean": "pnpm run clean:styles && pnpm run clean:scripts",
+		"lint:docs": "remark .",
+		"lint:styles": "stylelint assets/styles/",
+		"lint:scripts": "eslint assets/scripts/ ./*.js",
+		"lint": "pnpm run lint:docs; docs_lint_result=$?; pnpm run lint:styles; styles_lint_result=$?; pnpm run lint:scripts && [ $styles_lint_result -eq 0 ] && [ $docs_lint_result -eq 0 ]"
+	}
+}

@@ -1,0 +1,131 @@
+bundle_cache: &bundle_cache
+  bundle_cache:
+    folder: /usr/local/bundle
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - ruby -v
+      - cat Gemfile
+      - cat *.gemspec
+  install_script:
+    - gem install bundler
+    - bundle update
+
+env:
+  ## Resolve warnings from `perl` on `rbenv` operations:
+  ## https://cirrus-ci.com/task/6231955151781888?logs=test#L171
+  LANG: C.UTF-8
+  ## Resolve warnings from Bundler in CI:
+  ## https://github.com/cirruslabs/cirrus-ci-docs/issues/814
+  ## https://github.com/rubygems/rubygems/issues/4466#issuecomment-818688569
+  ## https://cirrus-ci.com/task/6231955151781888?logs=test#L198
+  TMPDIR: $CIRRUS_WORKING_DIR
+
+remark_task:
+  container:
+    image: node
+  node_modules_cache:
+    folder: node_modules
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - node -v
+      - cat package.json
+  install_script: npm install
+  lint_script: npm run remark
+  only_if: ($CIRRUS_BRANCH == 'main') ||
+    changesInclude(
+      '.cirrus.yaml', '.gitignore', 'package.json', '.remarkrc.yaml', '**.md'
+    )
+
+bundle-audit_task:
+  container:
+    image: ruby
+  <<: *bundle_cache
+  bundle-audit_script: bundle audit check --update
+  only_if: ($CIRRUS_BRANCH == 'main') ||
+    changesInclude(
+      '.cirrus.yaml', '.gitignore', 'Gemfile', '*.gemspec'
+    )
+
+rubocop_task:
+  container:
+    image: ruby
+  <<: *bundle_cache
+  lint_script: bundle exec rubocop
+  only_if: ($CIRRUS_BRANCH == 'main') ||
+    changesInclude(
+      '.cirrus.yaml', '.gitignore', 'Gemfile', 'Rakefile', '.rubocop.yml', '*.gemspec',
+      '**.rb', '**.ru'
+    )
+
+rspec_task:
+  container:
+    ## https://cirrus-ci.com/task/5233441622982656?command=bundle#L3
+    image: ruby
+
+  os_setup_script:
+    ## https://cirrus-ci.com/task/6357513148825600
+    ## https://cirrus-ci.com/task/6270527041961984?command=os_setup#L535
+    - apt-get update && apt-get upgrade -y && apt-get install git make gcc -y
+
+    ## Modify `.bashrc` here because it doesn't run on cache hit:
+    ## https://cirrus-ci.com/task/6153771409473536?command=test#L42
+
+    ## https://cirrus-ci.com/task/6270527041961984?command=os_setup#L543
+    - echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+    ## https://cirrus-ci.com/task/5656294977699840?command=os_setup#L633
+    - echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+
+    ## https://cirrus-ci.com/task/6270527041961984?command=os_setup#L543
+    - echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.bashrc
+    ## https://cirrus-ci.com/task/5656294977699840?command=os_setup#L633
+    - echo 'eval "$(nodenv init -)"' >> ~/.bashrc
+
+    ## Suppress git hints
+    - git config --global init.defaultBranch main
+    - git config --global pull.rebase true
+
+  always:
+    rbenv_cache:
+      folder: $HOME/.rbenv
+      populate_script:
+        - source ~/.bashrc
+
+        - git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+
+        ## https://github.com/rbenv/ruby-build#installation
+        - mkdir -p "$(rbenv root)"/plugins
+        - git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+
+    nodenv_cache:
+      folder: $HOME/.nodenv
+      populate_script:
+        - source ~/.bashrc
+
+        - git clone https://github.com/nodenv/nodenv.git ~/.nodenv
+
+        ## https://github.com/nodenv/node-build#installation
+        - mkdir -p "$(nodenv root)"/plugins
+        - git clone https://github.com/nodenv/node-build.git "$(nodenv root)"/plugins/node-build
+
+  <<: *bundle_cache
+
+  test_script:
+    - source ~/.bashrc
+    - bundle exec rspec
+
+  codecov_uploader_cache:
+    folder: codecov
+    fingerprint_script:
+      - curl --no-progress-meter https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
+    populate_script:
+      - mkdir -p codecov
+      - curl https://uploader.codecov.io/latest/linux/codecov -o codecov/uploader
+      - chmod +x codecov/uploader
+
+  codecov_script: codecov/uploader
+
+  only_if: ($CIRRUS_BRANCH == 'main') ||
+    changesInclude(
+      '.cirrus.yaml', '.gitignore', 'Gemfile', 'Rakefile', '.rspec',
+      '*.gemspec', 'lib/**', 'spec/**', 'template/**'
+    )

@@ -1,0 +1,15 @@
+$header-logo-height: 66px;
+$header-vertical-padding: 15px;
+$mobile-header-logo-height: 42px;
+$mobile-header-vertical-padding: 7px;
+
+> header {
+	background: $accent-background-color;
+	padding: $mobile-header-vertical-padding 0;
+	z-index: 7;
+
+	&,
+	a {
+		color: black;
+	}
+}

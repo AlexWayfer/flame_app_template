@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+module <%= module_name %>
+	::<%= short_module_name %> = self
+
+	APP_DIRS = [
+		'lib',
+		'config',
+		'models',
+		# 'policies',
+		'helpers',
+		'mailers',
+		# 'actions',
+		'forms',
+		# 'view_objects',
+		'controllers'
+	].freeze
+end

@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+## TODO: Release and update
+# gem 'flame_app_generator', '~> 0.1.0'
+gem 'flame_app_generator', path: '~/Projects/ruby/flame_app_generator'
+
+gem 'pry-byebug', '~> 3.9'
+
+group :test do
+	gem 'rspec', '~> 3.9'
+end
+
+group :lint do
+	gem 'bundler-audit', '~> 0.9.0'
+
+	gem 'rubocop', '~> 1.57.2'
+	gem 'rubocop-performance', '~> 1.0'
+	gem 'rubocop-rspec', '~> 2.25.0'
+end

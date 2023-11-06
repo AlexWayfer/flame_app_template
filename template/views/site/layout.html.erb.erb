@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title><%%= config[:site][:site_name] %></title>
+
+		<%%
+			%w[
+				main
+			].each do |name|
+		%>
+			<link rel="stylesheet" href="<%%= url_to "styles/#{name}.css", version: true %>" />
+		<%% end %>
+
+		<%%
+			if Sentry.configuration.enabled_environments.include?(config[:environment]) && !request.bot?
+		%>
+			<script
+				type="text/javascript" src="<%%= url_to "/scripts/compiled/sentry.js", version: true %>"
+			></script>
+
+			<script type="text/javascript">
+				Sentry.init({
+					dsn: '<%%= config[:sentry]['front-end'][:url] %>',
+
+					environment: '<%%= config[:environment] %>',
+					release: '<%%= Sentry.configuration.release %>',
+
+					// integrations: [new BrowserTracing()],
+
+					// Set tracesSampleRate to 1.0 to capture 100%
+					// of transactions for performance monitoring.
+					// We recommend adjusting this value in production
+					// tracesSampleRate: 1.0,
+				})
+
+				// Sentry.setUser(<%%= authenticated&.account&.to_json %>)
+			</script>
+		<%% end %>
+
+		<%%
+			{
+				lib: %w[],
+				# dom4.max
+				# modernizr-custom
+				# svgxuse.min
+				# cccombo
+				'compiled': %w[main]
+			}
+				.each do |dir, file_names|
+		%>
+			<%% file_names.each do |name| %>
+				<script
+					type="text/javascript" src="<%%= url_to "/scripts/#{dir}/#{name}.js", version: true %>"
+				></script>
+			<%% end %>
+		<%% end %>
+	</head>
+	<body>
+		<header>
+			<div class="container">
+				<a href="<%%= path_to <%= short_module_name %>::Site::IndexController %>">
+					<h1><%%= config[:site][:site_name] %></h1>
+				</a>
+
+				<!--
+				<%%# if @menu %>
+					<nav>
+						<%%#
+							@menu.current.ancestors.reverse.each do |parent|
+								items = parent.available
+								next if items.size < 2
+						%>
+							<%%# items.each do |item| %>
+								<a
+									href="<%%#= path_to item.controller %>"
+									class="<%%#= 'selected' if item.current? %>"
+								><%%#=
+									t.site.header.nav[parent.key][item.key]
+								%></a>
+							<%%# end %>
+						<%%# end %>
+					</nav>
+				<%%# end %>
+				-->
+			</div>
+		</header>
+
+		<main>
+			<div class="container">
+				<!--
+				<%%#
+					%i[error warning notice].each do |type|
+						flash[type].each do |text|
+				%>
+							<div class="flash <%%#= type %>">
+								<%%#= text %>
+							</div>
+				<%%#
+						end
+					end
+				%>
+				-->
+
+				<%%= yield %>
+
+			</div>
+		</main>
+
+		<footer>
+			<div class="container">
+				<a
+					href="<%%= path_to <%= short_module_name %>::Site::IndexController %>"
+				><%%= config[:site][:site_name] %></a>,
+				<%= Date.today.year %>
+			</div>
+		</footer>
+	</body>
+</html>

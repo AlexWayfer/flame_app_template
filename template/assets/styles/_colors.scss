@@ -1,0 +1,26 @@
+//// Accent
+$accent-background-color: #ddd;
+$accent-text-color: color.adjust($accent-background-color, $lightness: -15%);
+
+//// Footer
+$footer-background-color: transparent;
+$footer-text-color: white;
+
+// $tertiary-background-color: #ffffff;
+
+//// Colors
+$danger-background-color: color.adjust(red, $lightness: 15%);
+$danger-text-color: red;
+$error-color: $danger-text-color;
+$warning-background-color: orange;
+$warning-text-color: #e67e00; // color.adjust(darkorange, $lightness: -5%);
+$success-background-color: #2db92d; // color.adjust(limegreen, $lightness: -5%);
+$success-text-color: green;
+$highlight-background-color: #eee;
+$disabled-text-color: gray;
+
+//// Links
+$link-text-color: color.adjust($accent-text-color, $lightness: -10%);
+
+//// Inputs
+$input-border-color: #ccc;

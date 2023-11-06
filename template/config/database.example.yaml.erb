@@ -1,0 +1,23 @@
+default: &default
+  :adapter: 'postgres'
+  # :host: 'localhost'
+  :database: '<%= app_name %>'
+  :user: '<%= app_name %>'
+  # :password: 'password'
+  :superuser: 'postgres'
+
+  # :servers:
+  #   :replica:
+  #     :host: 'localhost'
+  #     :database: 'replica'
+  #     :user: 'replicauser'
+  #     :password: 'replicapassword'
+
+production:
+  <<: *default
+
+demo:
+  <<: *default
+
+development:
+  <<: *default

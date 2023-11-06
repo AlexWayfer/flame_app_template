@@ -1,0 +1,282 @@
+@use "sass:color";
+@use "sass:list";
+
+@import "lib/breakpoints";
+@import "lib/headings";
+@import "lib/clear-fix";
+@import "lib/inputs-with-types";
+@import "lib/disable-password-autocomplete";
+@import "lib/sticky-footer";
+
+* {
+	position: relative;
+
+	// outline: none;
+
+	&:not(svg) {
+		box-sizing: border-box;
+	}
+}
+
+body {
+	@import "colors";
+	@import "sizes";
+	@import "fonts";
+
+	margin: 0;
+	font-family: $main-font-family;
+
+	.hidden {
+		display: none !important;
+	}
+
+	:disabled {
+		cursor: not-allowed;
+	}
+
+	.container {
+		max-width: $container-max-width;
+		padding: 0 15px;
+		margin: 0 auto;
+	}
+
+	a {
+		text-decoration: none;
+		color: $link-text-color;
+
+		&:hover {
+			text-decoration: underline;
+		}
+
+		&[href^="mailto:"] {
+			white-space: nowrap;
+		}
+	}
+
+	label,
+	a {
+		&.button {
+			@extend %button;
+
+			display: inline-block;
+		}
+	}
+
+	// .icon {
+	// 	&.baseline {
+	// 		// https://blog.prototypr.io/align-svg-icons-to-text-and-say-goodbye-to-font-icons-d44b3d7b26b4#6e0c
+	// 		bottom: -0.125em;
+	// 	}
+	// }
+
+	@mixin custom-background-color($background-color) {
+		background: $background-color;
+		border-color: $background-color;
+
+		&:focus {
+			$focus-color: color.adjust($background-color, $lightness: -10%);
+
+			background: $focus-color;
+			border-color: $focus-color;
+		}
+
+		&:disabled {
+			$disabled-color: color.mix($background-color, #ddd);
+
+			background: $disabled-color;
+			border-color: $disabled-color;
+		}
+	}
+
+	@import "lib/small-and-large-elements";
+	@import "lib/input-with-clear-button";
+
+	// https://stackoverflow.com/a/23211766/2630849
+	#{inputs-with-types("text", "email", "password", "number", "url", "search")},
+	textarea {
+		appearance: none;
+	}
+
+	#{all-horizontal-inputs()},
+	textarea,
+	select,
+	.cccombo > button {
+		&:disabled {
+			color: #333;
+			background: #f5f5f5;
+		}
+	}
+
+	#{all-horizontal-inputs()},
+	textarea,
+	select,
+	button,
+	%button {
+		// Fix for Safari :see_no_evil:
+		margin: 0;
+		padding: $input-padding;
+
+		font: {
+			size: inherit;
+			family: inherit;
+		}
+
+		line-height: $input-line-height;
+		color: black;
+		background: white;
+		border: $input-border-width solid $input-border-color;
+		border-radius: $input-border-radius;
+	}
+
+	textarea {
+		border-radius: $common-border-radius;
+	}
+
+	select {
+		$svg-size: 24;
+
+		appearance: none;
+
+		background: {
+			image: url(
+				"data:image/svg+xml;utf8,<svg fill='black' height='#{$svg-size}' viewBox='0 0 #{$svg-size} #{$svg-size}' width='#{$svg-size}' xmlns='http://www.w3.org/2000/svg'><path d='M7 9l5 5 5-5z'/></svg>"
+			);
+			repeat: no-repeat;
+			position-x: 100%;
+			position-y: center;
+		}
+
+		padding-right: #{$svg-size}px;
+
+		white-space: normal;
+	}
+
+	input {
+		&[type="range"] {
+			padding-left: 0;
+			padding-right: 0;
+			border: none;
+		}
+
+		&[type="color"] {
+			box-sizing: content-box;
+			padding: 0 0.2em;
+			height: $input-line-height + $input-vertical-padding * 2;
+		}
+	}
+
+	@mixin primary {
+		@include custom-background-color($accent-background-color);
+
+		color: white;
+	}
+
+	@mixin warning {
+		@include custom-background-color($warning-background-color);
+
+		color: white;
+	}
+
+	@mixin danger {
+		@include custom-background-color($danger-background-color);
+
+		color: white;
+	}
+
+	@mixin success {
+		@include custom-background-color($success-background-color);
+
+		color: white;
+	}
+
+	@mixin secondary {
+		@include custom-background-color($footer-background-color);
+
+		color: white;
+	}
+
+	// @mixin tertiary {
+	// 	@include custom-background-color($tertiary-background-color);
+	// }
+
+	@mixin light {
+		@include custom-background-color(white);
+
+		color: $accent-text-color;
+		border-color: $accent-background-color;
+
+		&:focus {
+			border-color: $accent-background-color;
+		}
+	}
+
+	button {
+		@include custom-background-color(white);
+
+		border-color: $input-border-color;
+		border-radius: $button-border-radius;
+
+		&.small {
+			font-size: 0.875em;
+			padding: 0.2em 0.7em;
+		}
+
+		&.large {
+			font: {
+				size: 115%;
+				weight: bold;
+			}
+
+			text-transform: uppercase;
+			padding: 0.5em 0.8em;
+		}
+
+		&.primary {
+			@include primary;
+		}
+
+		&.warning {
+			@include warning;
+		}
+
+		&.danger {
+			@include danger;
+		}
+
+		&.success {
+			@include success;
+		}
+
+		&.secondary {
+			@include secondary;
+		}
+
+		// &.tertiary {
+		// 	@include tertiary;
+		// }
+
+		&.light {
+			@include light;
+		}
+	}
+
+	.cccombo > button {
+		border-radius: $input-border-radius;
+	}
+
+	#{all-horizontal-inputs()} {
+		@include padding-for-inputs-with-clear-button {
+			+ button:focus {
+				outline-color: color.adjust($highlight-background-color, $lightness: -15%);
+			}
+		}
+	}
+
+	@import "components/header";
+	@import "components/footer";
+	@import "components/flash";
+	@import "components/forms";
+	@import "components/page";
+
+	@include sticky-footer;
+}

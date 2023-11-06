@@ -1,0 +1,17 @@
+$container-max-width: 1200px;
+
+// $icon-size: 1em;
+
+//// Common borders
+$common-border-width: 1px;
+$common-border-radius: 0.45em;
+
+//// Inputs
+$input-border-radius: $common-border-radius;
+$input-border-width: $common-border-width;
+$input-vertical-padding: 0.2em;
+$input-padding: $input-vertical-padding 0.55em;
+$input-line-height: 1.4em;
+
+//// Buttons
+$button-border-radius: $input-border-radius;
