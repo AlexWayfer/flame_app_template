@@ -1,6 +1,8 @@
 extends:
   - stylelint-config-standard
   - stylelint-config-standard-scss
+  ## https://github.com/firefoxic/stylelint-codeguide/issues/9
+  - ./.stylelint-codesguide.yaml
 
 ignorePath: .gitignore
 
@@ -10,10 +12,10 @@ plugins:
 customSyntax: postcss-scss
 
 rules:
-  indentation:
+  codeguide/indentation:
     - tab
 
-  max-line-length:
+  codeguide/max-line-length:
     - 100
     - ignorePattern: /// https?:///
 
@@ -29,15 +31,15 @@ rules:
       ignoreAtRules:
         - else
 
-  block-closing-brace-newline-after:
+  codeguide/block-closing-brace-newline-after:
     - always
     - ignoreAtRules:
         - if
         - else
 
-  declaration-colon-newline-after: null
+  codeguide/declaration-colon-newline-after: null
 
-  function-comma-newline-after: null
+  codeguide/function-comma-newline-after: null
 
   declaration-empty-line-before:
     - always
@@ -51,7 +53,7 @@ rules:
     - true
     - severity: warning
 
-  declaration-colon-space-after:
+  codeguide/declaration-colon-space-after:
     - always-single-line
 
   ## This selectors could not be sorted by specificity:
