@@ -11,12 +11,12 @@
 		"whatwg-fetch": "*"
 	},
 	"devDependencies": {
+		"@stylistic/stylelint-config": "*",
 		"eslint": "*",
 		"postcss-scss": "*",
 		"remark-cli": "*",
 		"remark-preset-lint-recommended": "*",
 		"stylelint": "*",
-		"stylelint-codeguide": "*",
 		"stylelint-config-standard": "*",
 		"stylelint-config-standard-scss": "*",
 		"stylelint-no-unsupported-browser-features": "*"
