@@ -21,19 +21,20 @@ RSpec.describe 'Generated Flame app from template' do
 
 		Dir.chdir @app_name
 
-		Bundler.with_unbundled_env do
-			## HACK: https://github.com/dazuma/toys/issues/57
-			toys_command = 'truncate_load_path!'
-			toys_file_path = '.toys/.toys.rb'
-			File.write toys_file_path, File.read(toys_file_path).sub("# #{toys_command}", toys_command)
+		## HACK: https://github.com/dazuma/toys/issues/57
+		toys_command = 'truncate_load_path!'
+		toys_file_path = '.toys/.toys.rb'
+		File.write toys_file_path, File.read(toys_file_path).sub("# #{toys_command}", toys_command)
 
-			## HACK for testing while some server is running
-			server_config_file_path = 'config/server.yaml'
-			File.write(
-				server_config_file_path,
-				File.read(server_config_file_path).sub('port: 3000', "port: #{@port}")
-			)
-		end
+		## HACK for testing while some server is running
+		server_config_file_path = 'config/server.yaml'
+		server_config_file_content = File.read(server_config_file_path)
+		server_config_file_content.sub!('port: 3000', "port: #{@port}")
+		## In `development` (default) environment Filewatcher will try to restart server
+		## after removing directory
+		server_config_file_content.sub!('environment: development', 'environment: test')
+
+		File.write server_config_file_path, server_config_file_content
 	end
 
 	after :all do
@@ -41,8 +42,8 @@ RSpec.describe 'Generated Flame app from template' do
 
 		FileUtils.rm_r @app_name
 	end
-	# rubocop:enable RSpec/BeforeAfterAll
 	# rubocop:enable RSpec/InstanceVariable
+	# rubocop:enable RSpec/BeforeAfterAll
 
 	describe 'files' do
 		let(:file_path) { self.class.description }
@@ -203,41 +204,21 @@ RSpec.describe 'Generated Flame app from template' do
 
 	describe 'working app' do
 		subject do
-			Bundler.with_unbundled_env do
-				puts '!!! spawn'
-				pid = spawn 'toys server start'
+			number_of_attempts = 0
 
-				puts '!!! detach'
-				Process.detach pid
-
-				puts '!!! sleep'
-				sleep 0.1
-
-				number_of_attempts = 0
-
-				puts '!!! begin'
-				begin
-					number_of_attempts += 1
-					## https://github.com/gruntjs/grunt-contrib-connect/issues/25#issuecomment-16293494
-					## We need it here
-					# rubocop:disable RSpec/InstanceVariable
-					response = Net::HTTP.get URI("http://127.0.0.1:#{@port}/")
-					# rubocop:enable RSpec/InstanceVariable
-				rescue Errno::ECONNREFUSED => e
-					sleep 1
-					retry if number_of_attempts < 30
-					raise e
-				end
-
-				response
-			ensure
-				Bundler.with_unbundled_env { `toys server stop` }
-				begin
-					Process.wait pid
-				rescue Errno::ECHILD
-					## process already stopped
-				end
+			puts '!!! begin'
+			begin
+				number_of_attempts += 1
+				## https://github.com/gruntjs/grunt-contrib-connect/issues/25#issuecomment-16293494
+				## We need it here
+				response = Net::HTTP.get URI("http://127.0.0.1:#{@port}/")
+			rescue Errno::ECONNREFUSED => e
+				sleep 1
+				retry if number_of_attempts < 30
+				raise e
 			end
+
+			response
 		end
 
 		let(:expected_response_lines) do
@@ -245,6 +226,26 @@ RSpec.describe 'Generated Flame app from template' do
 				'<title>FooBar</title>',
 				'<h1>Hello, world!</h1>'
 			]
+		end
+
+		around do |example|
+			Bundler.with_unbundled_env do
+				start_pid = spawn 'toys server start'
+
+				Process.detach start_pid
+
+				sleep 0.1
+
+				example.run
+
+				`toys server stop`
+
+				begin
+					Process.wait(start_pid)
+				rescue Errno::ECHILD
+					## process already stopped
+				end
+			end
 		end
 
 		it { is_expected.to include_lines expected_response_lines }
