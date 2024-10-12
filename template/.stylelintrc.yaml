@@ -6,7 +6,8 @@ extends:
 ignorePath: .gitignore
 
 plugins:
-  - stylelint-no-unsupported-browser-features
+  ## https://github.com/RJWadley/stylelint-no-unsupported-browser-features/issues/299
+  # - stylelint-no-unsupported-browser-features
 
 customSyntax: postcss-scss
 
@@ -72,16 +73,17 @@ rules:
     - ignoreKeywords:
       - BlinkMacSystemFont
 
-  plugin/no-unsupported-browser-features:
-    - true
-    - severity: warning
-      ignore:
-        - flexbox
-        - css3-cursors
-        ## https://github.com/anandthakker/doiuse/issues/70
-        - outline
-        ## Let's reconcile with IE 11
-        - css-appearance
+  ## https://github.com/RJWadley/stylelint-no-unsupported-browser-features/issues/299
+  # plugin/no-unsupported-browser-features:
+  #   - true
+  #   - severity: warning
+  #     ignore:
+  #       - flexbox
+  #       - css3-cursors
+  #       ## https://github.com/anandthakker/doiuse/issues/70
+  #       - outline
+  #       ## Let's reconcile with IE 11
+  #       - css-appearance
 
   scss/dollar-variable-empty-line-before:
     - never
@@ -92,9 +94,10 @@ overrides:
   - files:
       - '**/*.scss'
     rules:
-      plugin/no-unsupported-browser-features:
-        - true
-        - severity: warning
-          ignore:
-            - css3-cursors
-            - css-nesting
+      ## https://github.com/RJWadley/stylelint-no-unsupported-browser-features/issues/299
+      # plugin/no-unsupported-browser-features:
+      #   - true
+      #   - severity: warning
+      #     ignore:
+      #       - css3-cursors
+      #       - css-nesting
