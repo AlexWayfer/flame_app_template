@@ -157,9 +157,25 @@ RSpec.describe 'Generated Flame app from template' do
 		it { is_expected.to be true }
 	end
 
-	describe 'Node.js lint' do
+	describe 'Markdown lint' do
 		subject do
-			system 'pnpm lint'
+			system 'pnpm lint:docs'
+		end
+
+		it { is_expected.to be true }
+	end
+
+	describe 'CSS lint' do
+		subject do
+			system 'pnpm lint:styles'
+		end
+
+		it { is_expected.to be true }
+	end
+
+	describe 'JavaScript lint' do
+		subject do
+			system 'pnpm lint:scripts'
 		end
 
 		it { is_expected.to be true }
