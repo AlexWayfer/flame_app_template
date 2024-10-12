@@ -211,7 +211,9 @@ RSpec.describe 'Generated Flame app from template' do
 				number_of_attempts += 1
 				## https://github.com/gruntjs/grunt-contrib-connect/issues/25#issuecomment-16293494
 				## We need it here
+				# rubocop:disable RSpec/InstanceVariable
 				response = Net::HTTP.get URI("http://127.0.0.1:#{@port}/")
+				# rubocop:enable RSpec/InstanceVariable
 			rescue Errno::ECONNREFUSED => e
 				sleep 1
 				retry if number_of_attempts < 30
