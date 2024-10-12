@@ -11,8 +11,11 @@
 		"whatwg-fetch": "*"
 	},
 	"devDependencies": {
+		"@eslint/js": "*",
+		"@stylistic/eslint-plugin-js": "*",
 		"@stylistic/stylelint-config": "*",
 		"eslint": "*",
+		"globals": "*",
 		"postcss-scss": "*",
 		"remark-cli": "*",
 		"remark-lint-list-item-indent": "*",
@@ -31,7 +34,7 @@
 		"clean": "pnpm run clean:styles && pnpm run clean:scripts",
 		"lint:docs": "remark .",
 		"lint:styles": "stylelint assets/styles/",
-		"lint:scripts": "eslint assets/scripts/ ./*.js",
+		"lint:scripts": "eslint",
 		"lint": "pnpm run lint:docs; docs_lint_result=$?; pnpm run lint:styles; styles_lint_result=$?; pnpm run lint:scripts && [ $styles_lint_result -eq 0 ] && [ $docs_lint_result -eq 0 ]"
 	}
 }
