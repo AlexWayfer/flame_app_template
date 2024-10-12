@@ -20,7 +20,7 @@ fi
 
 if [ ! -f "Gemfile.lock" ] || [ \
 	"$(tail -n 1 Gemfile.lock | tr -d [:blank:])" != \
-		"$(bundler -v | cut -d ' ' -f 3)" \
+		"$(bundle -v | cut -d ' ' -f 3)" \
 ]
 then exe gem install bundler --conservative
 fi
