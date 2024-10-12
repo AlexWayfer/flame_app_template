@@ -15,6 +15,7 @@
 		"eslint": "*",
 		"postcss-scss": "*",
 		"remark-cli": "*",
+		"remark-lint-list-item-indent": "*",
 		"remark-preset-lint-recommended": "*",
 		"stylelint": "*",
 		"stylelint-config-standard": "*",
