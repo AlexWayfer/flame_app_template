@@ -2,6 +2,10 @@
 
 require 'pry-byebug'
 
+require 'simplecov'
+
+SimpleCov.start
+
 RSpec.configure do |config|
 	config.example_status_persistence_file_path = "#{__dir__}/examples.txt"
 end

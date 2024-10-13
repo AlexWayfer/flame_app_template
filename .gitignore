@@ -5,3 +5,5 @@ yarn.lock
 Gemfile.lock
 
 /spec/examples.txt
+
+/coverage/

@@ -8,6 +8,8 @@ gem 'pry-byebug', '~> 3.9'
 
 group :test do
 	gem 'rspec', '~> 3.9'
+
+	gem 'simplecov', '~> 0.22.0'
 end
 
 group :lint do
