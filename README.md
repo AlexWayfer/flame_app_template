@@ -1,7 +1,6 @@
 # Flame App Template
 
 [![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/AlexWayfer/flame_app_template?style=flat-square)](https://cirrus-ci.com/github/AlexWayfer/flame_app_template)
-[![Codecov branch](https://img.shields.io/codecov/c/github/AlexWayfer/flame_app_template/main.svg?style=flat-square)](https://codecov.io/gh/AlexWayfer/flame_app_template)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/AlexWayfer/flame_app_template.svg?style=flat-square)](https://codeclimate.com/github/AlexWayfer/flame_app_template)
 [![Depfu](https://img.shields.io/depfu/AlexWayfer/flame_app_template?style=flat-square)](https://depfu.com/repos/github/AlexWayfer/flame_app_template)
 [![license](https://img.shields.io/github/license/AlexWayfer/flame_app_template.svg?style=flat-square)](LICENSE.txt)
