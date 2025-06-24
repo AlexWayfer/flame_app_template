@@ -20,6 +20,15 @@ module <%= module_name %>
 
 				private
 
+				APP_DIRS_PATTERN =
+					<%= short_module_name %>::APP_DIRS
+						.map { |app_dir| Regexp.escape(app_dir) }
+						.join('|')
+						.then { |regexp_template| /(#{regexp_template})/ }
+						.freeze
+
+				private_constant :APP_DIRS_PATTERN
+
 				def sentry_url(project:)
 					uri = URI::HTTPS.build(
 						userinfo: @sentry_config[project][:api_key], host: @sentry_config[:host]
@@ -27,13 +36,6 @@ module <%= module_name %>
 					uri.merge!(@sentry_config[project][:project_id].to_s)
 					uri.to_s
 				end
-
-				APP_DIRS_PATTERN =
-					<%= short_module_name %>::APP_DIRS
-						.map { |app_dir| Regexp.escape(app_dir) }
-						.join('|')
-						.then { |regexp_template| /(#{regexp_template})/ }
-						.freeze
 
 				def configure_sentry
 					::Sentry.init do |sentry_config|
