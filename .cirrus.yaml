@@ -7,7 +7,7 @@ bundle_cache: &bundle_cache
       - cat Gemfile
   install_script:
     - gem update --system --no-document
-    - bundle update
+    - bundle update --all
 
 env:
   ## Resolve warnings from `perl` on `rbenv` operations:
