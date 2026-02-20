@@ -206,7 +206,7 @@ RSpec.describe 'Generated Flame app from template' do
 		subject do
 			number_of_attempts = 0
 
-			puts '!!! begin'
+			# puts '!!! begin'
 			begin
 				number_of_attempts += 1
 				## https://github.com/gruntjs/grunt-contrib-connect/issues/25#issuecomment-16293494
