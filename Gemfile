@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'flame_app_generator', '~> 0.2.1'
+gem 'flame_app_generator', '~> 1.0'
 
 gem 'pry-byebug', '~> 3.9'
 
