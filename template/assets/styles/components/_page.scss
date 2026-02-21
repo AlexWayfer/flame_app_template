@@ -1,9 +1,9 @@
-@use 'sass:color';
+@use "sass:color";
 
-@use '../lib/headings';
+@use "../lib/headings";
 
-@use '../colors';
-@use '../sizes';
+@use "../colors";
+@use "../sizes";
 
 @mixin styles {
 	.page {

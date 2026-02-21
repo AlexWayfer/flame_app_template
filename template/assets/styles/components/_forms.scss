@@ -1,9 +1,9 @@
-@use 'sass:color';
+@use "sass:color";
 
-@use '../lib/inputs-with-types';
+@use "../lib/inputs-with-types";
 
-@use '../colors';
-@use '../sizes';
+@use "../colors";
+@use "../sizes";
 
 $form-vertical-label-margin: 0.8em;
 $form-vertical-input-margin: 0.4em;
