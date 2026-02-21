@@ -11,12 +11,13 @@ module <%= module_name %>
 		## Base class for forms
 		class Base < Formalism::Form
 			extend Forwardable
-			def_delegators 'self.class', :instance_name
 
 			include Memery
 			include Formalism::SequelTransactions
 			include Formalism::R18nErrors
 			include Formalism::R18nErrors::ValidationHelpers
+
+			def_delegators 'self.class', :instance_name
 
 			class << self
 				include Memery
