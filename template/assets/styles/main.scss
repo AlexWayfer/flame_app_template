@@ -175,41 +175,31 @@ body {
 	@mixin primary {
 		@include custom-background-color(colors.$accent-background-color);
 
-		& {
-			color: white;
-		}
+		color: white;
 	}
 
 	@mixin warning {
 		@include custom-background-color(colors.$warning-background-color);
 
-		& {
-			color: white;
-		}
+		color: white;
 	}
 
 	@mixin danger {
 		@include custom-background-color(colors.$danger-background-color);
 
-		& {
-			color: white;
-		}
+		color: white;
 	}
 
 	@mixin success {
 		@include custom-background-color(colors.$success-background-color);
 
-		& {
-			color: white;
-		}
+		color: white;
 	}
 
 	@mixin secondary {
 		@include custom-background-color(colors.$footer-background-color);
 
-		& {
-			color: white;
-		}
+		color: white;
 	}
 
 	// @mixin tertiary {
@@ -219,10 +209,8 @@ body {
 	@mixin light {
 		@include custom-background-color(white);
 
-		& {
-			color: colors.$accent-text-color;
-			border-color: colors.$accent-background-color;
-		}
+		color: colors.$accent-text-color;
+		border-color: colors.$accent-background-color;
 
 		&:focus {
 			border-color: colors.$accent-background-color;
