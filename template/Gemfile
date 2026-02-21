@@ -12,8 +12,8 @@ group :system do
 end
 
 group :server do
-	gem 'flame', '~> 5.0.0.rc8'
-	gem 'flame-flash', '~> 3.0.1.rc2'
+	gem 'flame', '~> 5.0'
+	gem 'flame-flash', '~> 3.0'
 	gem 'puma'
 
 	## https://github.com/rack/rack-contrib/issues/183
@@ -56,7 +56,7 @@ group :database do
 end
 
 group :translations do
-	gem 'flame-r18n', '~> 3.0.0.rc1'
+	gem 'flame-r18n'
 	gem 'r18n-core'
 end
 
