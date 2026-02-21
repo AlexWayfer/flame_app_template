@@ -3,7 +3,7 @@
 	$small-element: "> button", $large-element: "> input",
 	$small-element-on-right: false, $inline: false
 ) {
-	display: if($inline, inline-flex, flex);
+	display: if(sass($inline): inline-flex; else: flex);
 	align-items: stretch;
 
 	#{$large-element},
@@ -35,7 +35,7 @@
 	}
 
 	// Left element
-	#{if($small-element-on-right, $large-element, $small-element)} {
+	#{if(sass($small-element-on-right): $large-element; else: $small-element)} {
 		margin-right: -$common-border-width;
 
 		border: {
@@ -44,7 +44,7 @@
 		}
 	}
 
-	#{if($small-element-on-right, $small-element, $large-element)} {
+	#{if(sass($small-element-on-right): $small-element; else: $large-element)} {
 		border: {
 			top-left-radius: 0;
 			bottom-left-radius: 0;
