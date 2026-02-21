@@ -137,7 +137,10 @@ RSpec.describe 'Generated Flame app from template' do
 		it { is_expected.to be true }
 	end
 
-	describe 'outdated Ruby gems' do
+	describe(
+		'outdated Ruby gems',
+		pending: 'outdated indirect dependencies `diff-lcs` and `public_suffix`'
+	) do
 		subject do
 			## https://github.com/rubygems/rubygems/issues/6181#issuecomment-1376438133
 			Bundler.with_unbundled_env do
