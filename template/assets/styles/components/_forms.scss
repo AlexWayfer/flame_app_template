@@ -5,6 +5,8 @@
 @use "../colors";
 @use "../sizes";
 
+//// https://github.com/stylelint-scss/stylelint-scss/issues/1096
+// stylelint-disable-next-line scss/dollar-variable-empty-line-before
 $form-vertical-label-margin: 0.8em;
 $form-vertical-input-margin: 0.4em;
 

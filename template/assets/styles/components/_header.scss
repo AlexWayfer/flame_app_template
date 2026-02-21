@@ -1,5 +1,7 @@
 @use "../colors";
 
+//// https://github.com/stylelint-scss/stylelint-scss/issues/1096
+// stylelint-disable-next-line scss/dollar-variable-empty-line-before
 $header-logo-height: 66px;
 $header-vertical-padding: 15px;
 $mobile-header-logo-height: 42px;
