@@ -1,23 +1,27 @@
-.flash {
-	margin: 1em 0;
-	padding: 0 1em;
-	text-align: center;
-	font-weight: 600;
-	line-height: 1.4em;
+@use '../colors';
 
-	&::first-letter {
-		text-transform: capitalize;
-	}
+@mixin styles {
+	.flash {
+		margin: 1em 0;
+		padding: 0 1em;
+		text-align: center;
+		font-weight: 600;
+		line-height: 1.4em;
 
-	&.notice {
-		color: black;
-	}
+		&::first-letter {
+			text-transform: capitalize;
+		}
 
-	&.warning {
-		color: $warning-text-color;
-	}
+		&.notice {
+			color: black;
+		}
 
-	&.error {
-		color: $error-color;
+		&.warning {
+			color: colors.$warning-text-color;
+		}
+
+		&.error {
+			color: colors.$error-color;
+		}
 	}
 }

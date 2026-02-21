@@ -1,12 +1,25 @@
 @use "sass:color";
 @use "sass:list";
 
-@import "lib/breakpoints";
-@import "lib/headings";
-@import "lib/clear-fix";
-@import "lib/inputs-with-types";
-@import "lib/disable-password-autocomplete";
-@import "lib/sticky-footer";
+@use "lib/breakpoints";
+@use "lib/headings";
+@use "lib/clear-fix";
+@use "lib/inputs-with-types";
+@use "lib/disable-password-autocomplete";
+@use "lib/small-and-large-elements";
+@use "lib/input-with-clear-button";
+@use "lib/sticky-footer";
+
+@use "colors";
+@use "sizes";
+@use "fonts";
+
+@use "components/header";
+@use "components/footer";
+@use "components/flash";
+@use "components/forms";
+@use "components/page";
+
 
 * {
 	position: relative;
@@ -19,12 +32,8 @@
 }
 
 body {
-	@import "colors";
-	@import "sizes";
-	@import "fonts";
-
 	margin: 0;
-	font-family: $main-font-family;
+	font-family: fonts.$main-font-family;
 
 	.hidden {
 		display: none !important;
@@ -35,14 +44,14 @@ body {
 	}
 
 	.container {
-		max-width: $container-max-width;
+		max-width: sizes.$container-max-width;
 		padding: 0 15px;
 		margin: 0 auto;
 	}
 
 	a {
 		text-decoration: none;
-		color: $link-text-color;
+		color: colors.$link-text-color;
 
 		&:hover {
 			text-decoration: underline;
@@ -88,16 +97,15 @@ body {
 		}
 	}
 
-	@import "lib/small-and-large-elements";
-	@import "lib/input-with-clear-button";
+	@include input-with-clear-button.styles;
 
 	// https://stackoverflow.com/a/23211766/2630849
-	#{inputs-with-types("text", "email", "password", "number", "url", "search")},
+	#{inputs-with-types.selector("text", "email", "password", "number", "url", "search")},
 	textarea {
 		appearance: none;
 	}
 
-	#{all-horizontal-inputs()},
+	#{inputs-with-types.all-horizontal-selector()},
 	textarea,
 	select,
 	.cccombo > button {
@@ -107,29 +115,29 @@ body {
 		}
 	}
 
-	#{all-horizontal-inputs()},
+	#{inputs-with-types.all-horizontal-selector()},
 	textarea,
 	select,
 	button,
 	%button {
 		// Fix for Safari :see_no_evil:
 		margin: 0;
-		padding: $input-padding;
+		padding: sizes.$input-padding;
 
 		font: {
 			size: inherit;
 			family: inherit;
 		}
 
-		line-height: $input-line-height;
+		line-height: sizes.$input-line-height;
 		color: black;
 		background: white;
-		border: $input-border-width solid $input-border-color;
-		border-radius: $input-border-radius;
+		border: sizes.$input-border-width solid colors.$input-border-color;
+		border-radius: sizes.$input-border-radius;
 	}
 
 	textarea {
-		border-radius: $common-border-radius;
+		border-radius: sizes.$common-border-radius;
 	}
 
 	select {
@@ -161,12 +169,12 @@ body {
 		&[type="color"] {
 			box-sizing: content-box;
 			padding: 0 0.2em;
-			height: $input-line-height + $input-vertical-padding * 2;
+			height: sizes.$input-line-height + sizes.$input-vertical-padding * 2;
 		}
 	}
 
 	@mixin primary {
-		@include custom-background-color($accent-background-color);
+		@include custom-background-color(colors.$accent-background-color);
 
 		& {
 			color: white;
@@ -174,7 +182,7 @@ body {
 	}
 
 	@mixin warning {
-		@include custom-background-color($warning-background-color);
+		@include custom-background-color(colors.$warning-background-color);
 
 		& {
 			color: white;
@@ -182,7 +190,7 @@ body {
 	}
 
 	@mixin danger {
-		@include custom-background-color($danger-background-color);
+		@include custom-background-color(colors.$danger-background-color);
 
 		& {
 			color: white;
@@ -190,7 +198,7 @@ body {
 	}
 
 	@mixin success {
-		@include custom-background-color($success-background-color);
+		@include custom-background-color(colors.$success-background-color);
 
 		& {
 			color: white;
@@ -198,7 +206,7 @@ body {
 	}
 
 	@mixin secondary {
-		@include custom-background-color($footer-background-color);
+		@include custom-background-color(colors.$footer-background-color);
 
 		& {
 			color: white;
@@ -213,20 +221,20 @@ body {
 		@include custom-background-color(white);
 
 		& {
-			color: $accent-text-color;
-			border-color: $accent-background-color;
+			color: colors.$accent-text-color;
+			border-color: colors.$accent-background-color;
 		}
 
 		&:focus {
-			border-color: $accent-background-color;
+			border-color: colors.$accent-background-color;
 		}
 	}
 
 	button {
 		@include custom-background-color(white);
 
-		border-color: $input-border-color;
-		border-radius: $button-border-radius;
+		border-color: colors.$input-border-color;
+		border-radius: sizes.$button-border-radius;
 
 		&.small {
 			font-size: 0.875em;
@@ -273,22 +281,22 @@ body {
 	}
 
 	.cccombo > button {
-		border-radius: $input-border-radius;
+		border-radius: sizes.$input-border-radius;
 	}
 
-	#{all-horizontal-inputs()} {
-		@include padding-for-inputs-with-clear-button {
+	#{inputs-with-types.all-horizontal-selector()} {
+		@include input-with-clear-button.padding-styles {
 			+ button:focus {
-				outline-color: color.adjust($highlight-background-color, $lightness: -15%);
+				outline-color: color.adjust(colors.$highlight-background-color, $lightness: -15%);
 			}
 		}
 	}
 
-	@import "components/header";
-	@import "components/footer";
-	@import "components/flash";
-	@import "components/forms";
-	@import "components/page";
+	@include header.styles;
+	@include footer.styles;
+	@include flash.styles;
+	@include forms.styles;
+	@include page.styles;
 
-	@include sticky-footer;
+	@include sticky-footer.styles;
 }

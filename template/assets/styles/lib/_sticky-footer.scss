@@ -1,4 +1,4 @@
-@mixin sticky-footer($main-height: auto) {
+@mixin styles($main-height: auto) {
 	@at-root html {
 		height: 100%;
 	}

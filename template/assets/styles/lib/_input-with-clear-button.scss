@@ -1,6 +1,6 @@
 $input-with-clear-button-width: 2.4em;
 
-@mixin padding-for-inputs-with-clear-button {
+@mixin padding-styles {
 	&.with-clear-button {
 		padding-right: $input-with-clear-button-width + 0.2em;
 
@@ -8,27 +8,29 @@ $input-with-clear-button-width: 2.4em;
 	}
 }
 
-input {
-	@include padding-for-inputs-with-clear-button {
-		+ button {
-			$outline-with: 1px;
+@mixin styles {
+	input {
+		@include padding-styles {
+			+ button {
+				$outline-with: 1px;
 
-			position: absolute;
-			right: $outline-with;
-			top: $outline-with;
-			width: $input-with-clear-button-width;
-			height: calc(100% - #{$outline-with} * 2);
-			padding: 0.2em;
-			color: darkgray;
-			background: none;
-			border: none;
-
-			&:focus {
+				position: absolute;
+				right: $outline-with;
+				top: $outline-with;
+				width: $input-with-clear-button-width;
+				height: calc(100% - #{$outline-with} * 2);
+				padding: 0.2em;
+				color: darkgray;
 				background: none;
+				border: none;
 
-				outline: {
-					style: auto;
-					width: $outline-with;
+				&:focus {
+					background: none;
+
+					outline: {
+						style: auto;
+						width: $outline-with;
+					}
 				}
 			}
 		}

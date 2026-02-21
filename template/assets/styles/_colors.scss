@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 //// Accent
 $accent-background-color: #ddd;
 $accent-text-color: color.adjust($accent-background-color, $lightness: -15%);

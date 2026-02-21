@@ -1,4 +1,6 @@
-@function inputs-with-types($types...) {
+@use 'sass:list';
+
+@function selector($types...) {
 	$result: ();
 
 	@each $type in $types {
@@ -8,8 +10,8 @@
 	@return $result;
 }
 
-@function all-horizontal-inputs() {
-	@return inputs-with-types(
+@function all-horizontal-selector() {
+	@return selector(
 		"text", "email", "password", "number", "url", "search", "date", "time",
 		"file", "color", "range"
 	);
