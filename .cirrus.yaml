@@ -125,16 +125,16 @@ rspec_task:
     - source ~/.bashrc
     - bundle exec rspec
 
-  cc_test_reporter_cache:
-    folder: cc_test_reporter
+  codecov_uploader_cache:
+    folder: codecov
     fingerprint_script:
-      - curl -L --no-progress-meter https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64.sha256
+      - curl --no-progress-meter https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
     populate_script:
-      - mkdir -p cc_test_reporter
-      - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 -o cc_test_reporter/test-reporter-latest
-      - chmod +x cc_test_reporter/test-reporter-latest
+      - mkdir -p codecov
+      - curl https://uploader.codecov.io/latest/linux/codecov -o codecov/uploader
+      - chmod +x codecov/uploader
 
-  cc_test_report_script: cc_test_reporter/test-reporter-latest after-build
+  codecov_script: codecov/uploader
 
   only_if: ($CIRRUS_BRANCH == 'main') ||
     changesInclude(
