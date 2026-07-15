@@ -9,7 +9,7 @@ gem 'pry-byebug', '~> 3.9'
 group :test do
 	gem 'rspec', '~> 3.9'
 
-	gem 'simplecov', '~> 0.22.0'
+	gem 'simplecov', '~> 1.0.1'
 	gem 'simplecov-cobertura', '~> 3.1'
 end
 
